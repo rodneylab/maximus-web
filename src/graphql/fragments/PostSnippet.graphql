@@ -1,0 +1,5 @@
+fragment PostSnippet on Post {
+  slug
+  title
+  createdAt
+}
