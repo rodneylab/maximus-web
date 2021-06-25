@@ -23,7 +23,6 @@ specifiers:
   graphql: ^15.5.1
   husky: ^6.0.0
   next: ^11.0.1
-  npm: ^7.18.1
   prettier: ^2.3.1
   react: ^17.0.2
   react-dom: ^17.0.2
@@ -38,7 +37,6 @@ dependencies:
   framer-motion: 4.1.17_react-dom@17.0.2+react@17.0.2
   graphql: 15.5.1
   next: 11.0.1_2dbe935e140170ce01c975771f1adcbd
-  npm: 7.18.1
   react: 17.0.2
   react-dom: 17.0.2_react@17.0.2
   urql: 2.0.4_graphql@15.5.1+react@17.0.2
@@ -5423,80 +5421,6 @@ packages:
     resolution: {integrity: sha512-9UZCFRHQdNrfTpGg8+1INIg93B6zE0aXMVFkw1WFwvO4SlZywU6aLg5Of0Ap/PgcbSw4LNxvMWXMeugwMCX0AA==}
     engines: {node: '>=8'}
     dev: true
-
-  /npm/7.18.1:
-    resolution: {integrity: sha512-fu7rMtc4ZaDnFlZsiLhqwWWs6KixOcBGiBLoJH+AbuaznwtT8mYQnq5nGNN14Jib+E9OjkjNRgg+X45Ia9xtKQ==}
-    engines: {node: '>=10'}
-    hasBin: true
-    dev: false
-    bundledDependencies:
-      - '@npmcli/arborist'
-      - '@npmcli/ci-detect'
-      - '@npmcli/config'
-      - '@npmcli/run-script'
-      - abbrev
-      - ansicolors
-      - ansistyles
-      - archy
-      - byte-size
-      - cacache
-      - chalk
-      - chownr
-      - cli-columns
-      - cli-table3
-      - columnify
-      - glob
-      - graceful-fs
-      - hosted-git-info
-      - ini
-      - init-package-json
-      - is-cidr
-      - json-parse-even-better-errors
-      - leven
-      - libnpmaccess
-      - libnpmdiff
-      - libnpmexec
-      - libnpmfund
-      - libnpmhook
-      - libnpmorg
-      - libnpmpack
-      - libnpmpublish
-      - libnpmsearch
-      - libnpmteam
-      - libnpmversion
-      - make-fetch-happen
-      - minipass
-      - minipass-pipeline
-      - mkdirp
-      - mkdirp-infer-owner
-      - ms
-      - node-gyp
-      - nopt
-      - npm-audit-report
-      - npm-package-arg
-      - npm-pick-manifest
-      - npm-profile
-      - npm-registry-fetch
-      - npm-user-validate
-      - npmlog
-      - opener
-      - pacote
-      - parse-conflict-json
-      - qrcode-terminal
-      - read
-      - read-package-json
-      - read-package-json-fast
-      - readdir-scoped-modules
-      - rimraf
-      - semver
-      - ssri
-      - tar
-      - text-table
-      - tiny-relative-date
-      - treeverse
-      - validate-npm-package-name
-      - which
-      - write-file-atomic
 
   /nullthrows/1.1.1:
     resolution: {integrity: sha512-2vPPEi+Z7WqML2jZYddDIfy5Dqb0r2fze2zTxNNknZaFpVHU3mFB3R+DWeJWGVx0ecvttSGlJTI+WG+8Z4cDWw==}
