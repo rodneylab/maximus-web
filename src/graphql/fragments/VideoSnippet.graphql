@@ -1,0 +1,4 @@
+fragment VideoSnippet on Video {
+  id
+  key
+}

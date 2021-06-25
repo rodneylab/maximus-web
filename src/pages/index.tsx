@@ -1,7 +1,9 @@
 import React from 'react';
-import Layout from '../components/Layout.tsx';
-import { usePostsQuery } from '../generated/graphql.tsx';
-import { withApollo } from '../utilities/withApollo.tsx';
+import CreatePost from '../components/CreatePost';
+import Layout from '../components/Layout';
+import Post from '../components/Post';
+import { usePostsQuery } from '../generated/graphql';
+import { withApollo } from '../utilities/withApollo';
 
 const Index = () => {
   const { data, error, loading } = usePostsQuery({
@@ -20,6 +22,7 @@ const Index = () => {
       </>
     );
   }
+
   return (
     <Layout>
       {loading && !data ? (
@@ -28,7 +31,15 @@ const Index = () => {
         <>
           <h1>M A X I M U S</h1>
           <h2>Posts</h2>
-          <p>Posts will go here</p>
+          <CreatePost />
+          {data!.posts.posts.map((element) => (
+            <li key={element.slug}>
+              <h2>{element.title}</h2>
+              <p>{element.slug}</p>
+            </li>
+          ))}
+          <h2>Selected Post</h2>
+          <Post slug={data!.posts.posts[0].slug} />
         </>
       )}
     </Layout>

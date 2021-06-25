@@ -1,0 +1,8 @@
+query Post($slug: String!) {
+  post(slug: $slug) {
+    ...PostSnippet
+    videos {
+      ...VideoSnippet
+    }
+  }
+}
