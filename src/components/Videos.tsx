@@ -1,5 +1,6 @@
 import { DeleteIcon } from '@chakra-ui/icons';
 import { IconButton } from '@chakra-ui/react';
+import dayjs from 'dayjs';
 import React from 'react';
 import { useDeleteVideoMutation, useVideosQuery } from '../generated/graphql';
 import CreateVideo from './CreateVideo';
@@ -13,7 +14,6 @@ const Videos = ({ slug, videos }) => {
   });
 
   const handleDelete = async (id) => {
-    console.log('id: ', id);
     await deleteVideoMutation({
       variables: {
         id: parseInt(id, 10),
@@ -41,7 +41,9 @@ const Videos = ({ slug, videos }) => {
       <h4>Post Videos:</h4>
       <ul>
         {videos?.map((element) => {
-          const { id } = element;
+          const { id, key, createdAt } = element;
+          const createdDate = dayjs(createdAt);
+          const createdDateString = createdDate.fromNow();
           return (
             <li key={id}>
               {element.key}
@@ -52,6 +54,7 @@ const Videos = ({ slug, videos }) => {
                   handleDelete(id);
                 }}
               />
+              Created: {createdDateString}
             </li>
           );
         })}

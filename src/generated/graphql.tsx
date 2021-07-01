@@ -127,7 +127,7 @@ export type PostSnippetFragment = (
 
 export type VideoSnippetFragment = (
   { __typename?: 'Video' }
-  & Pick<Video, 'id' | 'key'>
+  & Pick<Video, 'id' | 'key' | 'createdAt'>
 );
 
 export type CreatePostMutationVariables = Exact<{
@@ -229,6 +229,7 @@ export const VideoSnippetFragmentDoc = gql`
     fragment VideoSnippet on Video {
   id
   key
+  createdAt
 }
     `;
 export const CreatePostDocument = gql`
