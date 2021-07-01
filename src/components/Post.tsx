@@ -1,5 +1,6 @@
 import React from 'react';
 import { usePostQuery } from '../generated/graphql';
+import Videos from './Videos';
 
 const Post = ({ slug }) => {
   const { data, error, loading } = usePostQuery({
@@ -14,7 +15,7 @@ const Post = ({ slug }) => {
   }
 
   if (error) {
-    return <>{error.message}</>;
+    return <p>Post: {error.message}</p>;
   }
 
   if (!data?.post) {
@@ -28,7 +29,7 @@ const Post = ({ slug }) => {
       <p>{slug}</p>
       <p>Created: {createdAt}</p>
       <h4>Videos</h4>
-      {videos == null ? null : <pre>{JSON.stringify(videos, null, 2)}</pre>}
+      <Videos slug={slug} videos={videos} />
     </>
   );
 };

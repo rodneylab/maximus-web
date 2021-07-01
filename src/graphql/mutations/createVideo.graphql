@@ -1,0 +1,5 @@
+mutation CreateVideo($identifiers: VideoIdentifiers!) {
+  createVideo(identifiers: $identifiers) {
+    ...VideoSnippet
+  }
+}

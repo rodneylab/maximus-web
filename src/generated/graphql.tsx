@@ -1,10 +1,10 @@
-import * as Apollo from '@apollo/client';
 import { gql } from '@apollo/client';
+import * as Apollo from '@apollo/client';
 export type Maybe<T> = T | null;
 export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
 export type MakeOptional<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]?: Maybe<T[SubKey]> };
 export type MakeMaybe<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]: Maybe<T[SubKey]> };
-const defaultOptions = {};
+const defaultOptions =  {}
 /** All built-in and custom scalars, mapped to their actual values */
 export type Scalars = {
   ID: string;
@@ -15,6 +15,7 @@ export type Scalars = {
   /** The javascript `Date` as string. Type represents date and time as the ISO Date string. */
   DateTime: any;
 };
+
 
 export type Image = {
   __typename?: 'Image';
@@ -28,8 +29,21 @@ export type Image = {
 
 export type Mutation = {
   __typename?: 'Mutation';
+  createVideo: Video;
+  deleteVideo: Scalars['Boolean'];
   createPost: Post;
 };
+
+
+export type MutationCreateVideoArgs = {
+  identifiers: VideoIdentifiers;
+};
+
+
+export type MutationDeleteVideoArgs = {
+  id: Scalars['Int'];
+};
+
 
 export type MutationCreatePostArgs = {
   input: PostInput;
@@ -48,8 +62,9 @@ export type Post = {
   slug: Scalars['String'];
   createdAt: Scalars['DateTime'];
   updatedAt: Scalars['DateTime'];
-  images: Image;
-  videos: Video;
+  images?: Maybe<Array<Image>>;
+  videos?: Maybe<Array<Video>>;
+  relatedPosts?: Maybe<Array<Post>>;
 };
 
 export type PostInput = {
@@ -62,22 +77,25 @@ export type Query = {
   hello: Scalars['String'];
   image: Scalars['String'];
   images: Array<Image>;
+  videos: Videos;
   post?: Maybe<Post>;
   posts: PaginatedPosts;
-  videos: Videos;
 };
+
+
+export type QueryVideosArgs = {
+  slug: Scalars['String'];
+};
+
 
 export type QueryPostArgs = {
   slug: Scalars['String'];
 };
 
+
 export type QueryPostsArgs = {
   cursor?: Maybe<Scalars['String']>;
   limit: Scalars['Int'];
-};
-
-export type QueryVideosArgs = {
-  slug: Scalars['String'];
 };
 
 export type Video = {
@@ -92,75 +110,135 @@ export type Video = {
   post: Post;
 };
 
-export type Videos = {
-  __typename?: 'Videos';
-  images: Array<Video>;
+export type VideoIdentifiers = {
+  slug: Scalars['String'];
+  key: Scalars['String'];
 };
 
-export type PostSnippetFragment = { __typename?: 'Post' } & Pick<
-  Post,
-  'id' | 'slug' | 'title' | 'createdAt'
->;
+export type Videos = {
+  __typename?: 'Videos';
+  videos?: Maybe<Array<Video>>;
+};
 
-export type VideoSnippetFragment = { __typename?: 'Video' } & Pick<Video, 'id' | 'key'>;
+export type PostSnippetFragment = (
+  { __typename?: 'Post' }
+  & Pick<Post, 'id' | 'slug' | 'title' | 'createdAt'>
+);
+
+export type VideoSnippetFragment = (
+  { __typename?: 'Video' }
+  & Pick<Video, 'id' | 'key'>
+);
 
 export type CreatePostMutationVariables = Exact<{
   input: PostInput;
 }>;
 
-export type CreatePostMutation = { __typename?: 'Mutation' } & {
-  createPost: { __typename?: 'Post' } & PostSnippetFragment;
-};
+
+export type CreatePostMutation = (
+  { __typename?: 'Mutation' }
+  & { createPost: (
+    { __typename?: 'Post' }
+    & PostSnippetFragment
+  ) }
+);
+
+export type CreateVideoMutationVariables = Exact<{
+  identifiers: VideoIdentifiers;
+}>;
+
+
+export type CreateVideoMutation = (
+  { __typename?: 'Mutation' }
+  & { createVideo: (
+    { __typename?: 'Video' }
+    & VideoSnippetFragment
+  ) }
+);
+
+export type DeleteVideoMutationVariables = Exact<{
+  id: Scalars['Int'];
+}>;
+
+
+export type DeleteVideoMutation = (
+  { __typename?: 'Mutation' }
+  & Pick<Mutation, 'deleteVideo'>
+);
 
 export type PostQueryVariables = Exact<{
   slug: Scalars['String'];
 }>;
 
-export type PostQuery = { __typename?: 'Query' } & {
-  post?: Maybe<
-    { __typename?: 'Post' } & {
-      videos: { __typename?: 'Video' } & VideoSnippetFragment;
-    } & PostSnippetFragment
-  >;
-};
+
+export type PostQuery = (
+  { __typename?: 'Query' }
+  & { post?: Maybe<(
+    { __typename?: 'Post' }
+    & { videos?: Maybe<Array<(
+      { __typename?: 'Video' }
+      & VideoSnippetFragment
+    )>> }
+    & PostSnippetFragment
+  )> }
+);
 
 export type PostsQueryVariables = Exact<{
   limit: Scalars['Int'];
   cursor?: Maybe<Scalars['String']>;
 }>;
 
-export type PostsQuery = { __typename?: 'Query' } & {
-  posts: { __typename?: 'PaginatedPosts' } & Pick<PaginatedPosts, 'hasMore'> & {
-      posts: Array<{ __typename?: 'Post' } & PostSnippetFragment>;
-    };
-};
+
+export type PostsQuery = (
+  { __typename?: 'Query' }
+  & { posts: (
+    { __typename?: 'PaginatedPosts' }
+    & Pick<PaginatedPosts, 'hasMore'>
+    & { posts: Array<(
+      { __typename?: 'Post' }
+      & PostSnippetFragment
+    )> }
+  ) }
+);
+
+export type VideosQueryVariables = Exact<{
+  slug: Scalars['String'];
+}>;
+
+
+export type VideosQuery = (
+  { __typename?: 'Query' }
+  & { videos: (
+    { __typename?: 'Videos' }
+    & { videos?: Maybe<Array<(
+      { __typename?: 'Video' }
+      & VideoSnippetFragment
+    )>> }
+  ) }
+);
 
 export const PostSnippetFragmentDoc = gql`
-  fragment PostSnippet on Post {
-    id
-    slug
-    title
-    createdAt
-  }
-`;
+    fragment PostSnippet on Post {
+  id
+  slug
+  title
+  createdAt
+}
+    `;
 export const VideoSnippetFragmentDoc = gql`
-  fragment VideoSnippet on Video {
-    id
-    key
-  }
-`;
+    fragment VideoSnippet on Video {
+  id
+  key
+}
+    `;
 export const CreatePostDocument = gql`
-  mutation CreatePost($input: PostInput!) {
-    createPost(input: $input) {
-      ...PostSnippet
-    }
+    mutation CreatePost($input: PostInput!) {
+  createPost(input: $input) {
+    ...PostSnippet
   }
-  ${PostSnippetFragmentDoc}
-`;
-export type CreatePostMutationFn = Apollo.MutationFunction<
-  CreatePostMutation,
-  CreatePostMutationVariables
->;
+}
+    ${PostSnippetFragmentDoc}`;
+export type CreatePostMutationFn = Apollo.MutationFunction<CreatePostMutation, CreatePostMutationVariables>;
 
 /**
  * __useCreatePostMutation__
@@ -179,33 +257,88 @@ export type CreatePostMutationFn = Apollo.MutationFunction<
  *   },
  * });
  */
-export function useCreatePostMutation(
-  baseOptions?: Apollo.MutationHookOptions<CreatePostMutation, CreatePostMutationVariables>,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useMutation<CreatePostMutation, CreatePostMutationVariables>(
-    CreatePostDocument,
-    options,
-  );
-}
+export function useCreatePostMutation(baseOptions?: Apollo.MutationHookOptions<CreatePostMutation, CreatePostMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<CreatePostMutation, CreatePostMutationVariables>(CreatePostDocument, options);
+      }
 export type CreatePostMutationHookResult = ReturnType<typeof useCreatePostMutation>;
 export type CreatePostMutationResult = Apollo.MutationResult<CreatePostMutation>;
-export type CreatePostMutationOptions = Apollo.BaseMutationOptions<
-  CreatePostMutation,
-  CreatePostMutationVariables
->;
-export const PostDocument = gql`
-  query Post($slug: String!) {
-    post(slug: $slug) {
-      ...PostSnippet
-      videos {
-        ...VideoSnippet
+export type CreatePostMutationOptions = Apollo.BaseMutationOptions<CreatePostMutation, CreatePostMutationVariables>;
+export const CreateVideoDocument = gql`
+    mutation CreateVideo($identifiers: VideoIdentifiers!) {
+  createVideo(identifiers: $identifiers) {
+    ...VideoSnippet
+  }
+}
+    ${VideoSnippetFragmentDoc}`;
+export type CreateVideoMutationFn = Apollo.MutationFunction<CreateVideoMutation, CreateVideoMutationVariables>;
+
+/**
+ * __useCreateVideoMutation__
+ *
+ * To run a mutation, you first call `useCreateVideoMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCreateVideoMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [createVideoMutation, { data, loading, error }] = useCreateVideoMutation({
+ *   variables: {
+ *      identifiers: // value for 'identifiers'
+ *   },
+ * });
+ */
+export function useCreateVideoMutation(baseOptions?: Apollo.MutationHookOptions<CreateVideoMutation, CreateVideoMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<CreateVideoMutation, CreateVideoMutationVariables>(CreateVideoDocument, options);
       }
+export type CreateVideoMutationHookResult = ReturnType<typeof useCreateVideoMutation>;
+export type CreateVideoMutationResult = Apollo.MutationResult<CreateVideoMutation>;
+export type CreateVideoMutationOptions = Apollo.BaseMutationOptions<CreateVideoMutation, CreateVideoMutationVariables>;
+export const DeleteVideoDocument = gql`
+    mutation DeleteVideo($id: Int!) {
+  deleteVideo(id: $id)
+}
+    `;
+export type DeleteVideoMutationFn = Apollo.MutationFunction<DeleteVideoMutation, DeleteVideoMutationVariables>;
+
+/**
+ * __useDeleteVideoMutation__
+ *
+ * To run a mutation, you first call `useDeleteVideoMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useDeleteVideoMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [deleteVideoMutation, { data, loading, error }] = useDeleteVideoMutation({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useDeleteVideoMutation(baseOptions?: Apollo.MutationHookOptions<DeleteVideoMutation, DeleteVideoMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<DeleteVideoMutation, DeleteVideoMutationVariables>(DeleteVideoDocument, options);
+      }
+export type DeleteVideoMutationHookResult = ReturnType<typeof useDeleteVideoMutation>;
+export type DeleteVideoMutationResult = Apollo.MutationResult<DeleteVideoMutation>;
+export type DeleteVideoMutationOptions = Apollo.BaseMutationOptions<DeleteVideoMutation, DeleteVideoMutationVariables>;
+export const PostDocument = gql`
+    query Post($slug: String!) {
+  post(slug: $slug) {
+    ...PostSnippet
+    videos {
+      ...VideoSnippet
     }
   }
-  ${PostSnippetFragmentDoc}
-  ${VideoSnippetFragmentDoc}
-`;
+}
+    ${PostSnippetFragmentDoc}
+${VideoSnippetFragmentDoc}`;
 
 /**
  * __usePostQuery__
@@ -224,29 +357,26 @@ export const PostDocument = gql`
  * });
  */
 export function usePostQuery(baseOptions: Apollo.QueryHookOptions<PostQuery, PostQueryVariables>) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useQuery<PostQuery, PostQueryVariables>(PostDocument, options);
-}
-export function usePostLazyQuery(
-  baseOptions?: Apollo.LazyQueryHookOptions<PostQuery, PostQueryVariables>,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useLazyQuery<PostQuery, PostQueryVariables>(PostDocument, options);
-}
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<PostQuery, PostQueryVariables>(PostDocument, options);
+      }
+export function usePostLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<PostQuery, PostQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<PostQuery, PostQueryVariables>(PostDocument, options);
+        }
 export type PostQueryHookResult = ReturnType<typeof usePostQuery>;
 export type PostLazyQueryHookResult = ReturnType<typeof usePostLazyQuery>;
 export type PostQueryResult = Apollo.QueryResult<PostQuery, PostQueryVariables>;
 export const PostsDocument = gql`
-  query Posts($limit: Int!, $cursor: String) {
-    posts(limit: $limit, cursor: $cursor) {
-      posts {
-        ...PostSnippet
-      }
-      hasMore
+    query Posts($limit: Int!, $cursor: String) {
+  posts(limit: $limit, cursor: $cursor) {
+    posts {
+      ...PostSnippet
     }
+    hasMore
   }
-  ${PostSnippetFragmentDoc}
-`;
+}
+    ${PostSnippetFragmentDoc}`;
 
 /**
  * __usePostsQuery__
@@ -265,18 +395,51 @@ export const PostsDocument = gql`
  *   },
  * });
  */
-export function usePostsQuery(
-  baseOptions: Apollo.QueryHookOptions<PostsQuery, PostsQueryVariables>,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useQuery<PostsQuery, PostsQueryVariables>(PostsDocument, options);
-}
-export function usePostsLazyQuery(
-  baseOptions?: Apollo.LazyQueryHookOptions<PostsQuery, PostsQueryVariables>,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useLazyQuery<PostsQuery, PostsQueryVariables>(PostsDocument, options);
-}
+export function usePostsQuery(baseOptions: Apollo.QueryHookOptions<PostsQuery, PostsQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<PostsQuery, PostsQueryVariables>(PostsDocument, options);
+      }
+export function usePostsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<PostsQuery, PostsQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<PostsQuery, PostsQueryVariables>(PostsDocument, options);
+        }
 export type PostsQueryHookResult = ReturnType<typeof usePostsQuery>;
 export type PostsLazyQueryHookResult = ReturnType<typeof usePostsLazyQuery>;
 export type PostsQueryResult = Apollo.QueryResult<PostsQuery, PostsQueryVariables>;
+export const VideosDocument = gql`
+    query Videos($slug: String!) {
+  videos(slug: $slug) {
+    videos {
+      ...VideoSnippet
+    }
+  }
+}
+    ${VideoSnippetFragmentDoc}`;
+
+/**
+ * __useVideosQuery__
+ *
+ * To run a query within a React component, call `useVideosQuery` and pass it any options that fit your needs.
+ * When your component renders, `useVideosQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useVideosQuery({
+ *   variables: {
+ *      slug: // value for 'slug'
+ *   },
+ * });
+ */
+export function useVideosQuery(baseOptions: Apollo.QueryHookOptions<VideosQuery, VideosQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<VideosQuery, VideosQueryVariables>(VideosDocument, options);
+      }
+export function useVideosLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<VideosQuery, VideosQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<VideosQuery, VideosQueryVariables>(VideosDocument, options);
+        }
+export type VideosQueryHookResult = ReturnType<typeof useVideosQuery>;
+export type VideosLazyQueryHookResult = ReturnType<typeof useVideosLazyQuery>;
+export type VideosQueryResult = Apollo.QueryResult<VideosQuery, VideosQueryVariables>;
