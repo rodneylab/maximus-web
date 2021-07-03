@@ -13,6 +13,7 @@ specifiers:
   '@types/node': ^15.14.0
   '@types/react': ^17.0.13
   '@typescript-eslint/eslint-plugin': ^4.28.1
+  axios: ^0.21.1
   dayjs: ^1.10.5
   eslint-config-airbnb: ^18.2.1
   eslint-config-next: ^11.0.1
@@ -36,6 +37,7 @@ dependencies:
   '@chakra-ui/react': 1.6.4_924c0b9f13926621a4c1181ae841569c
   '@emotion/react': 11.4.0_43559efe81628b42e1e465743e6a3ffa
   '@emotion/styled': 11.3.0_042eebaef67fba5da1c045d32f8c9a23
+  axios: 0.21.1
   dayjs: 1.10.5
   formik: 2.2.9_react@17.0.2
   framer-motion: 4.1.17_react-dom@17.0.2+react@17.0.2
@@ -2613,6 +2615,14 @@ packages:
     engines: {node: '>=4'}
     dev: true
 
+  /axios/0.21.1:
+    resolution: {integrity: sha512-dKQiRHxGD9PPRIUNIWvZhPTPpl1rf/OxTYKsqKUDjBwYylTvV7SjSHJb9ratfyzM6wCdLCOYLzs73qpg5c4iGA==}
+    dependencies:
+      follow-redirects: 1.14.1
+    transitivePeerDependencies:
+      - debug
+    dev: false
+
   /axobject-query/2.2.0:
     resolution: {integrity: sha512-Td525n+iPOOyUQIeBfcASuG6uJsDOITl7Mds5gFyerkWiX7qhUTdYUBlSgNMyVqtSJqwpt1kXGLdUt6SykLMRA==}
     dev: true
@@ -3890,6 +3900,16 @@ packages:
     engines: {node: '>=10'}
     dependencies:
       tslib: 1.14.1
+    dev: false
+
+  /follow-redirects/1.14.1:
+    resolution: {integrity: sha512-HWqDgT7ZEkqRzBvc2s64vSZ/hfOceEol3ac/7tKwzuvEyWx3/4UegXh5oBOIotkGsObyk3xznnSRVADBgWSQVg==}
+    engines: {node: '>=4.0'}
+    peerDependencies:
+      debug: '*'
+    peerDependenciesMeta:
+      debug:
+        optional: true
     dev: false
 
   /foreach/2.0.5:
