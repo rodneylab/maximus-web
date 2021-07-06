@@ -14,7 +14,7 @@ specifiers:
   '@types/react': ^17.0.13
   '@typescript-eslint/eslint-plugin': ^4.28.2
   axios: ^0.21.1
-  dayjs: ^1.10.5
+  dayjs: ^1.10.6
   eslint-config-airbnb: ^18.2.1
   eslint-config-next: ^11.0.1
   eslint-config-prettier: ^8.3.0
@@ -24,7 +24,7 @@ specifiers:
   formik: ^2.2.9
   framer-motion: ^4.1.17
   graphql: ^15.5.1
-  husky: ^7.0.0
+  husky: ^7.0.1
   next: ^11.0.1
   prettier: ^2.3.2
   react: ^17.0.2
@@ -38,7 +38,7 @@ dependencies:
   '@emotion/react': 11.4.0_43559efe81628b42e1e465743e6a3ffa
   '@emotion/styled': 11.3.0_042eebaef67fba5da1c045d32f8c9a23
   axios: 0.21.1
-  dayjs: 1.10.5
+  dayjs: 1.10.6
   formik: 2.2.9_react@17.0.2
   framer-motion: 4.1.17_react-dom@17.0.2+react@17.0.2
   graphql: 15.5.1
@@ -62,7 +62,7 @@ devDependencies:
   eslint-plugin-jsx-a11y: 6.4.1
   eslint-plugin-prettier: 3.4.0_ae3805332b62cec006ed24a9ec35ea79
   eslint-plugin-react: 7.24.0
-  husky: 7.0.0
+  husky: 7.0.1
   prettier: 2.3.2
   typescript: 4.3.5
 
@@ -3283,8 +3283,8 @@ packages:
     resolution: {integrity: sha512-hBSVCvSmWC+QypYObzwGOd9wqdDpOt+0wl0KbU+R+uuZBS1jN8VsD1ss3irQDknRj5NvxiTF6oj/nDRnN/UQNw==}
     dev: true
 
-  /dayjs/1.10.5:
-    resolution: {integrity: sha512-BUFis41ikLz+65iH6LHQCDm4YPMj5r1YFLdupPIyM4SGcXMmtiLQ7U37i+hGS8urIuqe7I/ou3IS1jVc4nbN4g==}
+  /dayjs/1.10.6:
+    resolution: {integrity: sha512-AztC/IOW4L1Q41A86phW5Thhcrco3xuAA+YX/BLpLWWjRcTj5TOt/QImBLmCKlrF7u7k47arTnOyL6GnbG8Hvw==}
     dev: false
 
   /debounce/1.2.1:
@@ -4278,8 +4278,8 @@ packages:
       - supports-color
     dev: true
 
-  /husky/7.0.0:
-    resolution: {integrity: sha512-xK7lO0EtSzfFPiw+oQncQVy/XqV7UVVjxBByc+Iv5iK3yhW9boDoWgvZy3OGo48QKg/hUtZkzz0hi2HXa0kn7w==}
+  /husky/7.0.1:
+    resolution: {integrity: sha512-gceRaITVZ+cJH9sNHqx5tFwbzlLCVxtVZcusME8JYQ8Edy5mpGDOqD8QBCdMhpyo9a+JXddnujQ4rpY2Ff9SJA==}
     engines: {node: '>=12'}
     hasBin: true
     dev: true
