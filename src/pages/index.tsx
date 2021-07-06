@@ -1,6 +1,5 @@
 import React from 'react';
 import CreatePost from '../components/CreatePost';
-import FileInput from '../components/FileInput';
 import Layout from '../components/Layout';
 import Post from '../components/Post';
 import { usePostsQuery } from '../generated/graphql';
@@ -43,7 +42,6 @@ const Index = () => {
           <Post slug={data!.posts.posts[0].slug} />
         </>
       )}
-      <FileInput />
     </Layout>
   );
 };

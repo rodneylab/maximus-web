@@ -1,5 +1,5 @@
-mutation CreateVideo($identifiers: VideoIdentifiers!) {
-  createVideo(identifiers: $identifiers) {
+mutation CreateVideo($parameters: CreateVideoParameters!) {
+  createVideo(parameters: $parameters) {
     ...VideoSnippet
   }
 }
