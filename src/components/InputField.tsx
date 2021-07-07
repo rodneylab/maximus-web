@@ -1,4 +1,4 @@
-import { VisuallyHidden } from '@chakra-ui/react';
+import { FormLabel, VisuallyHidden } from '@chakra-ui/react';
 import { ErrorMessage, Field, useField } from 'formik';
 import React, { InputHTMLAttributes } from 'react';
 
@@ -24,7 +24,9 @@ const InputField: React.FC<InputFieldProps> = ({
   return (
     <>
       <VisuallyHidden>
-        <label htmlFor={id}>{label}</label>
+        <FormLabel>
+          <label htmlFor={id}>{label}</label>
+        </FormLabel>
       </VisuallyHidden>
       <Field
         as="input"

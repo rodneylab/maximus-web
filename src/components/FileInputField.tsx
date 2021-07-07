@@ -1,4 +1,4 @@
-import { FormControl, FormErrorMessage, FormLabel, Input, VisuallyHidden } from '@chakra-ui/react';
+import { FormControl, FormErrorMessage, FormLabel, Input } from '@chakra-ui/react';
 import { ErrorMessage, Field, useField } from 'formik';
 import React, { InputHTMLAttributes } from 'react';
 
@@ -26,13 +26,12 @@ const FileInputField: React.FC<FileInputFieldProps> = ({
 
   return (
     <>
-      <VisuallyHidden>
+      <FormLabel>
         <label htmlFor={id}>{label}</label>
-      </VisuallyHidden>
+      </FormLabel>
       <Field name={name}>
         {({ field, form }) => (
           <FormControl id={id}>
-            <FormLabel>{label}</FormLabel>
             <Input
               id={id}
               type="file"

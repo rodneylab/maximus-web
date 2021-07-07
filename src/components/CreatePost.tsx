@@ -15,9 +15,10 @@ const CreatePost: React.FC<{}> = () => {
       },
     });
     if (createPostErrors) {
-      // setErrors(createPostErrors);
-      // router.push('/');
-      console.log('Error creating post: ', { createPostErrors });
+      setErrors(`Error creating post: ${createPostErrors[0].message}`);
+      createPostErrors.forEach((error) => {
+        console.log('Error creating post: ', error.message);
+      });
     }
   };
   return (
