@@ -1,28 +1,14 @@
-import { DeleteIcon } from '@chakra-ui/icons';
-import { IconButton } from '@chakra-ui/react';
-import dayjs from 'dayjs';
 import React from 'react';
-import { useDeleteVideoMutation, useVideosQuery } from '../generated/graphql';
+import { useVideosQuery } from '../generated/graphql';
 import CreateVideo from './CreateVideo';
+import Video from './Video';
 
 const Videos = ({ slug, videos }) => {
-  const [deleteVideoMutation] = useDeleteVideoMutation();
   const { data, error, loading } = useVideosQuery({
     variables: {
       slug,
     },
   });
-
-  const handleDelete = async (id) => {
-    await deleteVideoMutation({
-      variables: {
-        id: parseInt(id, 10),
-      },
-      update: (cache) => {
-        cache.evict({ id: `Video:${id}` });
-      },
-    });
-  };
 
   if (loading) {
     return <>loading...</>;
@@ -32,8 +18,13 @@ const Videos = ({ slug, videos }) => {
     return <>Videos: {error.message}</>;
   }
 
-  if (!data?.videos) {
-    return <>Could not find any videos for post with slug: {slug}</>;
+  if (videos.length === 0) {
+    return (
+      <>
+        Post with slug: {slug} does not have any videos yet
+        <CreateVideo slug={slug} />
+      </>
+    );
   }
 
   return (
@@ -41,20 +32,17 @@ const Videos = ({ slug, videos }) => {
       <h4>Post Videos:</h4>
       <ul>
         {videos?.map((element) => {
-          const { id, key, createdAt } = element;
-          const createdDate = dayjs(createdAt);
-          const createdDateString = createdDate.fromNow();
+          const { createdAt, description, id, key, playbackId } = element;
+
           return (
             <li key={id}>
-              {element.key}
-              <IconButton
-                aria-label="Delete video"
-                icon={<DeleteIcon />}
-                onClick={() => {
-                  handleDelete(id);
-                }}
+              <Video
+                createdAt={createdAt}
+                description={description}
+                id={id}
+                key={key}
+                playbackId={playbackId}
               />
-              Created: {createdDateString}
             </li>
           );
         })}

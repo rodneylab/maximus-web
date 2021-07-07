@@ -24,22 +24,26 @@ const CreateVideo: React.FC<CreateVideoProps> = ({ slug }) => {
         method: 'POST',
         data,
       });
-      // console.log('captions response: ', response);
+
+      if (!response.data.successful) {
+        setErrors('Error uploading captions and video files to storage.');
+        return;
+      }
       const { url: captionsUrl } = response.data.captions;
       const { url: videoUrl } = response.data.video;
 
       // create video
-      const { key } = values;
+      const { description, key } = values;
       const { errors: createVideoErrors } = await createVideo({
-        variables: { parameters: { slug, key, captionsUrl, videoUrl } },
+        variables: { parameters: { captionsUrl, description, key, slug, videoUrl } },
         update: (cache) => {
           cache.evict({ fieldName: 'posts:{}' });
         },
       });
       if (createVideoErrors) {
-        setErrors(`Error creating post: ${createVideoErrors[0].message}`);
+        setErrors(`Error creating video: ${createVideoErrors[0].message}`);
         createVideoErrors.forEach((error) => {
-          console.log('Error creating post: ', error.message);
+          console.log('Error creating video: ', error.message);
         });
       }
 
@@ -57,10 +61,11 @@ const CreateVideo: React.FC<CreateVideoProps> = ({ slug }) => {
   };
   return (
     <>
-      <Formik initialValues={{ key: '' }} onSubmit={handleSubmit}>
+      <Formik initialValues={{ description: '', key: '' }} onSubmit={handleSubmit}>
         {({ isSubmitting, setFieldValue }) => (
           <Form>
             <InputField name="key" placeholder="video-key" label="Key" />
+            <InputField name="description" placeholder="Description" label="Description" />
             <FileInputField
               id="captions"
               name="captions"
