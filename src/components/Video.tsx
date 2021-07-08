@@ -4,7 +4,7 @@ import dayjs from 'dayjs';
 import React from 'react';
 import { useDeleteVideoMutation } from '../generated/graphql';
 
-const Video = ({ createdAt, description, id, key, playbackId }) => {
+const Video = ({ createdAt, description, id, videoKey: key, playbackId }) => {
   const [deleteVideoMutation] = useDeleteVideoMutation();
 
   const handleDelete = async (id) => {

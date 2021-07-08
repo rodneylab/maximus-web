@@ -13,10 +13,15 @@ type CreateVideoProps = {
 const CreateVideo: React.FC<CreateVideoProps> = ({ slug }) => {
   const [createVideo] = useCreateVideoMutation();
   const [errors, setErrors] = useState('');
+
   const handleSubmit = async (values, actions) => {
+    const { description, key } = values;
+    const captionsFileName = values.captions[0].name;
+    const videoFileName = values.video[0].name;
     const data = new FormData();
-    data.append('captions', values.captions[0], values.captions[0].name);
-    data.append('video', values.video[0], values.video[0].name);
+    // return;
+    data.append('captions', values.captions[0], captionsFileName);
+    data.append('video', values.video[0], videoFileName);
     try {
       // upload captions and video files to storage
       const response = await axios({
@@ -33,9 +38,18 @@ const CreateVideo: React.FC<CreateVideoProps> = ({ slug }) => {
       const { url: videoUrl } = response.data.video;
 
       // create video
-      const { description, key } = values;
       const { errors: createVideoErrors } = await createVideo({
-        variables: { parameters: { captionsUrl, description, key, slug, videoUrl } },
+        variables: {
+          parameters: {
+            captionsFile: captionsFileName,
+            captionsUrl,
+            description,
+            key,
+            slug,
+            videoFile: videoFileName,
+            videoUrl,
+          },
+        },
         update: (cache) => {
           cache.evict({ fieldName: 'posts:{}' });
         },

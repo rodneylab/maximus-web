@@ -1,23 +1,8 @@
 import React from 'react';
-import { useVideosQuery } from '../generated/graphql';
 import CreateVideo from './CreateVideo';
 import Video from './Video';
 
 const Videos = ({ slug, videos }) => {
-  const { data, error, loading } = useVideosQuery({
-    variables: {
-      slug,
-    },
-  });
-
-  if (loading) {
-    return <>loading...</>;
-  }
-
-  if (error) {
-    return <>Videos: {error.message}</>;
-  }
-
   if (videos.length === 0) {
     return (
       <>
@@ -40,7 +25,7 @@ const Videos = ({ slug, videos }) => {
                 createdAt={createdAt}
                 description={description}
                 id={id}
-                key={key}
+                videoKey={key}
                 playbackId={playbackId}
               />
             </li>
