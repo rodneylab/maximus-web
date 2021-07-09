@@ -8,6 +8,9 @@
 # testing
 /coverage
 
+# Mac files
+.DS_Store
+
 # next.js
 /.next/
 /out/
@@ -16,7 +19,6 @@
 /build
 
 # misc
-.DS_Store
 *.pem
 
 # debug
