@@ -17,15 +17,29 @@ const Videos = ({ slug, videos }) => {
       <h4>Post Videos:</h4>
       <ul>
         {videos?.map((element) => {
-          const { createdAt, description, id, key, playbackId } = element;
+          const {
+            captionsStorageId,
+            captionsStorageKey,
+            createdAt,
+            description,
+            id,
+            key,
+            playbackId,
+            videoStorageId,
+            videoStorageKey,
+          } = element;
 
           return (
             <li key={id}>
               <Video
+                captionsStorageId={captionsStorageId}
+                captionsStorageKey={captionsStorageKey}
                 createdAt={createdAt}
                 description={description}
                 id={id}
                 videoKey={key}
+                videoStorageId={videoStorageId}
+                videoStorageKey={videoStorageKey}
                 playbackId={playbackId}
               />
             </li>

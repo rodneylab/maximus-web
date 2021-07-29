@@ -4,7 +4,7 @@ export type Maybe<T> = T | null;
 export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
 export type MakeOptional<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]?: Maybe<T[SubKey]> };
 export type MakeMaybe<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]: Maybe<T[SubKey]> };
-const defaultOptions = {};
+const defaultOptions =  {}
 /** All built-in and custom scalars, mapped to their actual values */
 export type Scalars = {
   ID: string;
@@ -21,10 +21,15 @@ export type CreateVideoParameters = {
   key: Scalars['String'];
   description: Scalars['String'];
   captionsFile: Scalars['String'];
+  captionsStorageId: Scalars['String'];
+  captionsStorageKey: Scalars['String'];
   captionsUrl: Scalars['String'];
   videoFile: Scalars['String'];
+  videoStorageId: Scalars['String'];
+  videoStorageKey: Scalars['String'];
   videoUrl: Scalars['String'];
 };
+
 
 export type Image = {
   __typename?: 'Image';
@@ -43,13 +48,16 @@ export type Mutation = {
   createPost: Post;
 };
 
+
 export type MutationCreateVideoArgs = {
   parameters: CreateVideoParameters;
 };
 
+
 export type MutationDeleteVideoArgs = {
   id: Scalars['Int'];
 };
+
 
 export type MutationCreatePostArgs = {
   input: PostInput;
@@ -87,13 +95,16 @@ export type Query = {
   posts: PaginatedPosts;
 };
 
+
 export type QueryVideosArgs = {
   slug: Scalars['String'];
 };
 
+
 export type QueryPostArgs = {
   slug: Scalars['String'];
 };
+
 
 export type QueryPostsArgs = {
   cursor?: Maybe<Scalars['String']>;
@@ -110,6 +121,10 @@ export type Video = {
   ready: Scalars['Boolean'];
   playbackId: Scalars['String'];
   videoId: Scalars['String'];
+  captionsStorageId: Scalars['String'];
+  captionsStorageKey: Scalars['String'];
+  videoStorageId: Scalars['String'];
+  videoStorageKey: Scalars['String'];
   createdAt: Scalars['DateTime'];
   updatedAt: Scalars['DateTime'];
   post: Post;
@@ -120,100 +135,132 @@ export type Videos = {
   videos?: Maybe<Array<Video>>;
 };
 
-export type PostSnippetFragment = { __typename?: 'Post' } & Pick<
-  Post,
-  'id' | 'slug' | 'title' | 'createdAt'
->;
+export type PostSnippetFragment = (
+  { __typename?: 'Post' }
+  & Pick<Post, 'id' | 'slug' | 'title' | 'createdAt'>
+);
 
-export type VideoSnippetFragment = { __typename?: 'Video' } & Pick<
-  Video,
-  'id' | 'key' | 'createdAt' | 'description' | 'playbackId'
->;
+export type VideoSnippetFragment = (
+  { __typename?: 'Video' }
+  & Pick<Video, 'id' | 'key' | 'createdAt' | 'description' | 'playbackId' | 'captionsStorageId' | 'captionsStorageKey' | 'videoStorageId' | 'videoStorageKey'>
+);
 
 export type CreatePostMutationVariables = Exact<{
   input: PostInput;
 }>;
 
-export type CreatePostMutation = { __typename?: 'Mutation' } & {
-  createPost: { __typename?: 'Post' } & PostSnippetFragment;
-};
+
+export type CreatePostMutation = (
+  { __typename?: 'Mutation' }
+  & { createPost: (
+    { __typename?: 'Post' }
+    & PostSnippetFragment
+  ) }
+);
 
 export type CreateVideoMutationVariables = Exact<{
   parameters: CreateVideoParameters;
 }>;
 
-export type CreateVideoMutation = { __typename?: 'Mutation' } & {
-  createVideo: { __typename?: 'Video' } & VideoSnippetFragment;
-};
+
+export type CreateVideoMutation = (
+  { __typename?: 'Mutation' }
+  & { createVideo: (
+    { __typename?: 'Video' }
+    & VideoSnippetFragment
+  ) }
+);
 
 export type DeleteVideoMutationVariables = Exact<{
   id: Scalars['Int'];
 }>;
 
-export type DeleteVideoMutation = { __typename?: 'Mutation' } & Pick<Mutation, 'deleteVideo'>;
+
+export type DeleteVideoMutation = (
+  { __typename?: 'Mutation' }
+  & Pick<Mutation, 'deleteVideo'>
+);
 
 export type PostQueryVariables = Exact<{
   slug: Scalars['String'];
 }>;
 
-export type PostQuery = { __typename?: 'Query' } & {
-  post?: Maybe<
-    { __typename?: 'Post' } & {
-      videos?: Maybe<Array<{ __typename?: 'Video' } & VideoSnippetFragment>>;
-    } & PostSnippetFragment
-  >;
-};
+
+export type PostQuery = (
+  { __typename?: 'Query' }
+  & { post?: Maybe<(
+    { __typename?: 'Post' }
+    & { videos?: Maybe<Array<(
+      { __typename?: 'Video' }
+      & VideoSnippetFragment
+    )>> }
+    & PostSnippetFragment
+  )> }
+);
 
 export type PostsQueryVariables = Exact<{
   limit: Scalars['Int'];
   cursor?: Maybe<Scalars['String']>;
 }>;
 
-export type PostsQuery = { __typename?: 'Query' } & {
-  posts: { __typename?: 'PaginatedPosts' } & Pick<PaginatedPosts, 'hasMore'> & {
-      posts: Array<{ __typename?: 'Post' } & PostSnippetFragment>;
-    };
-};
+
+export type PostsQuery = (
+  { __typename?: 'Query' }
+  & { posts: (
+    { __typename?: 'PaginatedPosts' }
+    & Pick<PaginatedPosts, 'hasMore'>
+    & { posts: Array<(
+      { __typename?: 'Post' }
+      & PostSnippetFragment
+    )> }
+  ) }
+);
 
 export type VideosQueryVariables = Exact<{
   slug: Scalars['String'];
 }>;
 
-export type VideosQuery = { __typename?: 'Query' } & {
-  videos: { __typename?: 'Videos' } & {
-    videos?: Maybe<Array<{ __typename?: 'Video' } & VideoSnippetFragment>>;
-  };
-};
+
+export type VideosQuery = (
+  { __typename?: 'Query' }
+  & { videos: (
+    { __typename?: 'Videos' }
+    & { videos?: Maybe<Array<(
+      { __typename?: 'Video' }
+      & VideoSnippetFragment
+    )>> }
+  ) }
+);
 
 export const PostSnippetFragmentDoc = gql`
-  fragment PostSnippet on Post {
-    id
-    slug
-    title
-    createdAt
-  }
-`;
+    fragment PostSnippet on Post {
+  id
+  slug
+  title
+  createdAt
+}
+    `;
 export const VideoSnippetFragmentDoc = gql`
-  fragment VideoSnippet on Video {
-    id
-    key
-    createdAt
-    description
-    playbackId
-  }
-`;
+    fragment VideoSnippet on Video {
+  id
+  key
+  createdAt
+  description
+  playbackId
+  captionsStorageId
+  captionsStorageKey
+  videoStorageId
+  videoStorageKey
+}
+    `;
 export const CreatePostDocument = gql`
-  mutation CreatePost($input: PostInput!) {
-    createPost(input: $input) {
-      ...PostSnippet
-    }
+    mutation CreatePost($input: PostInput!) {
+  createPost(input: $input) {
+    ...PostSnippet
   }
-  ${PostSnippetFragmentDoc}
-`;
-export type CreatePostMutationFn = Apollo.MutationFunction<
-  CreatePostMutation,
-  CreatePostMutationVariables
->;
+}
+    ${PostSnippetFragmentDoc}`;
+export type CreatePostMutationFn = Apollo.MutationFunction<CreatePostMutation, CreatePostMutationVariables>;
 
 /**
  * __useCreatePostMutation__
@@ -232,33 +279,21 @@ export type CreatePostMutationFn = Apollo.MutationFunction<
  *   },
  * });
  */
-export function useCreatePostMutation(
-  baseOptions?: Apollo.MutationHookOptions<CreatePostMutation, CreatePostMutationVariables>,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useMutation<CreatePostMutation, CreatePostMutationVariables>(
-    CreatePostDocument,
-    options,
-  );
-}
+export function useCreatePostMutation(baseOptions?: Apollo.MutationHookOptions<CreatePostMutation, CreatePostMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<CreatePostMutation, CreatePostMutationVariables>(CreatePostDocument, options);
+      }
 export type CreatePostMutationHookResult = ReturnType<typeof useCreatePostMutation>;
 export type CreatePostMutationResult = Apollo.MutationResult<CreatePostMutation>;
-export type CreatePostMutationOptions = Apollo.BaseMutationOptions<
-  CreatePostMutation,
-  CreatePostMutationVariables
->;
+export type CreatePostMutationOptions = Apollo.BaseMutationOptions<CreatePostMutation, CreatePostMutationVariables>;
 export const CreateVideoDocument = gql`
-  mutation CreateVideo($parameters: CreateVideoParameters!) {
-    createVideo(parameters: $parameters) {
-      ...VideoSnippet
-    }
+    mutation CreateVideo($parameters: CreateVideoParameters!) {
+  createVideo(parameters: $parameters) {
+    ...VideoSnippet
   }
-  ${VideoSnippetFragmentDoc}
-`;
-export type CreateVideoMutationFn = Apollo.MutationFunction<
-  CreateVideoMutation,
-  CreateVideoMutationVariables
->;
+}
+    ${VideoSnippetFragmentDoc}`;
+export type CreateVideoMutationFn = Apollo.MutationFunction<CreateVideoMutation, CreateVideoMutationVariables>;
 
 /**
  * __useCreateVideoMutation__
@@ -277,30 +312,19 @@ export type CreateVideoMutationFn = Apollo.MutationFunction<
  *   },
  * });
  */
-export function useCreateVideoMutation(
-  baseOptions?: Apollo.MutationHookOptions<CreateVideoMutation, CreateVideoMutationVariables>,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useMutation<CreateVideoMutation, CreateVideoMutationVariables>(
-    CreateVideoDocument,
-    options,
-  );
-}
+export function useCreateVideoMutation(baseOptions?: Apollo.MutationHookOptions<CreateVideoMutation, CreateVideoMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<CreateVideoMutation, CreateVideoMutationVariables>(CreateVideoDocument, options);
+      }
 export type CreateVideoMutationHookResult = ReturnType<typeof useCreateVideoMutation>;
 export type CreateVideoMutationResult = Apollo.MutationResult<CreateVideoMutation>;
-export type CreateVideoMutationOptions = Apollo.BaseMutationOptions<
-  CreateVideoMutation,
-  CreateVideoMutationVariables
->;
+export type CreateVideoMutationOptions = Apollo.BaseMutationOptions<CreateVideoMutation, CreateVideoMutationVariables>;
 export const DeleteVideoDocument = gql`
-  mutation DeleteVideo($id: Int!) {
-    deleteVideo(id: $id)
-  }
-`;
-export type DeleteVideoMutationFn = Apollo.MutationFunction<
-  DeleteVideoMutation,
-  DeleteVideoMutationVariables
->;
+    mutation DeleteVideo($id: Int!) {
+  deleteVideo(id: $id)
+}
+    `;
+export type DeleteVideoMutationFn = Apollo.MutationFunction<DeleteVideoMutation, DeleteVideoMutationVariables>;
 
 /**
  * __useDeleteVideoMutation__
@@ -319,33 +343,24 @@ export type DeleteVideoMutationFn = Apollo.MutationFunction<
  *   },
  * });
  */
-export function useDeleteVideoMutation(
-  baseOptions?: Apollo.MutationHookOptions<DeleteVideoMutation, DeleteVideoMutationVariables>,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useMutation<DeleteVideoMutation, DeleteVideoMutationVariables>(
-    DeleteVideoDocument,
-    options,
-  );
-}
+export function useDeleteVideoMutation(baseOptions?: Apollo.MutationHookOptions<DeleteVideoMutation, DeleteVideoMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<DeleteVideoMutation, DeleteVideoMutationVariables>(DeleteVideoDocument, options);
+      }
 export type DeleteVideoMutationHookResult = ReturnType<typeof useDeleteVideoMutation>;
 export type DeleteVideoMutationResult = Apollo.MutationResult<DeleteVideoMutation>;
-export type DeleteVideoMutationOptions = Apollo.BaseMutationOptions<
-  DeleteVideoMutation,
-  DeleteVideoMutationVariables
->;
+export type DeleteVideoMutationOptions = Apollo.BaseMutationOptions<DeleteVideoMutation, DeleteVideoMutationVariables>;
 export const PostDocument = gql`
-  query Post($slug: String!) {
-    post(slug: $slug) {
-      ...PostSnippet
-      videos {
-        ...VideoSnippet
-      }
+    query Post($slug: String!) {
+  post(slug: $slug) {
+    ...PostSnippet
+    videos {
+      ...VideoSnippet
     }
   }
-  ${PostSnippetFragmentDoc}
-  ${VideoSnippetFragmentDoc}
-`;
+}
+    ${PostSnippetFragmentDoc}
+${VideoSnippetFragmentDoc}`;
 
 /**
  * __usePostQuery__
@@ -364,29 +379,26 @@ export const PostDocument = gql`
  * });
  */
 export function usePostQuery(baseOptions: Apollo.QueryHookOptions<PostQuery, PostQueryVariables>) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useQuery<PostQuery, PostQueryVariables>(PostDocument, options);
-}
-export function usePostLazyQuery(
-  baseOptions?: Apollo.LazyQueryHookOptions<PostQuery, PostQueryVariables>,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useLazyQuery<PostQuery, PostQueryVariables>(PostDocument, options);
-}
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<PostQuery, PostQueryVariables>(PostDocument, options);
+      }
+export function usePostLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<PostQuery, PostQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<PostQuery, PostQueryVariables>(PostDocument, options);
+        }
 export type PostQueryHookResult = ReturnType<typeof usePostQuery>;
 export type PostLazyQueryHookResult = ReturnType<typeof usePostLazyQuery>;
 export type PostQueryResult = Apollo.QueryResult<PostQuery, PostQueryVariables>;
 export const PostsDocument = gql`
-  query Posts($limit: Int!, $cursor: String) {
-    posts(limit: $limit, cursor: $cursor) {
-      posts {
-        ...PostSnippet
-      }
-      hasMore
+    query Posts($limit: Int!, $cursor: String) {
+  posts(limit: $limit, cursor: $cursor) {
+    posts {
+      ...PostSnippet
     }
+    hasMore
   }
-  ${PostSnippetFragmentDoc}
-`;
+}
+    ${PostSnippetFragmentDoc}`;
 
 /**
  * __usePostsQuery__
@@ -405,31 +417,26 @@ export const PostsDocument = gql`
  *   },
  * });
  */
-export function usePostsQuery(
-  baseOptions: Apollo.QueryHookOptions<PostsQuery, PostsQueryVariables>,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useQuery<PostsQuery, PostsQueryVariables>(PostsDocument, options);
-}
-export function usePostsLazyQuery(
-  baseOptions?: Apollo.LazyQueryHookOptions<PostsQuery, PostsQueryVariables>,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useLazyQuery<PostsQuery, PostsQueryVariables>(PostsDocument, options);
-}
+export function usePostsQuery(baseOptions: Apollo.QueryHookOptions<PostsQuery, PostsQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<PostsQuery, PostsQueryVariables>(PostsDocument, options);
+      }
+export function usePostsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<PostsQuery, PostsQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<PostsQuery, PostsQueryVariables>(PostsDocument, options);
+        }
 export type PostsQueryHookResult = ReturnType<typeof usePostsQuery>;
 export type PostsLazyQueryHookResult = ReturnType<typeof usePostsLazyQuery>;
 export type PostsQueryResult = Apollo.QueryResult<PostsQuery, PostsQueryVariables>;
 export const VideosDocument = gql`
-  query Videos($slug: String!) {
-    videos(slug: $slug) {
-      videos {
-        ...VideoSnippet
-      }
+    query Videos($slug: String!) {
+  videos(slug: $slug) {
+    videos {
+      ...VideoSnippet
     }
   }
-  ${VideoSnippetFragmentDoc}
-`;
+}
+    ${VideoSnippetFragmentDoc}`;
 
 /**
  * __useVideosQuery__
@@ -447,18 +454,14 @@ export const VideosDocument = gql`
  *   },
  * });
  */
-export function useVideosQuery(
-  baseOptions: Apollo.QueryHookOptions<VideosQuery, VideosQueryVariables>,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useQuery<VideosQuery, VideosQueryVariables>(VideosDocument, options);
-}
-export function useVideosLazyQuery(
-  baseOptions?: Apollo.LazyQueryHookOptions<VideosQuery, VideosQueryVariables>,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useLazyQuery<VideosQuery, VideosQueryVariables>(VideosDocument, options);
-}
+export function useVideosQuery(baseOptions: Apollo.QueryHookOptions<VideosQuery, VideosQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<VideosQuery, VideosQueryVariables>(VideosDocument, options);
+      }
+export function useVideosLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<VideosQuery, VideosQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<VideosQuery, VideosQueryVariables>(VideosDocument, options);
+        }
 export type VideosQueryHookResult = ReturnType<typeof useVideosQuery>;
 export type VideosLazyQueryHookResult = ReturnType<typeof useVideosLazyQuery>;
 export type VideosQueryResult = Apollo.QueryResult<VideosQuery, VideosQueryVariables>;

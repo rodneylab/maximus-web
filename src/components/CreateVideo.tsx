@@ -19,7 +19,6 @@ const CreateVideo: React.FC<CreateVideoProps> = ({ slug }) => {
     const captionsFileName = values.captions[0].name;
     const videoFileName = values.video[0].name;
     const data = new FormData();
-    // return;
     data.append('captions', values.captions[0], captionsFileName);
     data.append('video', values.video[0], videoFileName);
     try {
@@ -34,19 +33,23 @@ const CreateVideo: React.FC<CreateVideoProps> = ({ slug }) => {
         setErrors('Error uploading captions and video files to storage.');
         return;
       }
-      const { url: captionsUrl } = response.data.captions;
-      const { url: videoUrl } = response.data.video;
+      const { id: captionsStorageId, url: captionsUrl } = response.data.captions;
+      const { id: videoStorageId, url: videoUrl } = response.data.video;
 
       // create video
       const { errors: createVideoErrors } = await createVideo({
         variables: {
           parameters: {
             captionsFile: captionsFileName,
+            captionsStorageId,
+            captionsStorageKey: captionsFileName,
             captionsUrl,
             description,
             key,
             slug,
             videoFile: videoFileName,
+            videoStorageId,
+            videoStorageKey: videoFileName,
             videoUrl,
           },
         },

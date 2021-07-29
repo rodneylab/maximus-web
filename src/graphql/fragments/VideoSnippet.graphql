@@ -4,4 +4,8 @@ fragment VideoSnippet on Video {
   createdAt
   description
   playbackId
+  captionsStorageId
+  captionsStorageKey
+  videoStorageId
+  videoStorageKey
 }

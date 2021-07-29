@@ -4,7 +4,17 @@ import dayjs from 'dayjs';
 import React from 'react';
 import { useDeleteVideoMutation } from '../generated/graphql';
 
-const Video = ({ createdAt, description, id, videoKey: key, playbackId }) => {
+const Video = ({
+  captionsStorageId,
+  captionsStorageKey,
+  createdAt,
+  description,
+  id,
+  videoKey: key,
+  playbackId,
+  videoStorageId,
+  videoStorageKey,
+}) => {
   const [deleteVideoMutation] = useDeleteVideoMutation();
 
   const handleDelete = async (id) => {
@@ -33,6 +43,10 @@ const Video = ({ createdAt, description, id, videoKey: key, playbackId }) => {
       />
       <p>Description: {description}</p>
       <p>Playback id: {playbackId}</p>
+      <p>Captions storage id: {captionsStorageId}</p>
+      <p>Captions storage key: {captionsStorageKey}</p>
+      <p>Video storage id: {videoStorageId}</p>
+      <p>Video storage key: {videoStorageKey}</p>
       <p>Created: {createdDateString}</p>
     </>
   );
