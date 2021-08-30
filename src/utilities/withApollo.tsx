@@ -1,15 +1,22 @@
-import { ApolloClient, InMemoryCache } from '@apollo/client';
+import { ApolloClient, createHttpLink, InMemoryCache } from '@apollo/client';
 import { NextPageContext } from 'next';
 import { PaginatedPosts } from '../generated/graphql';
 import { createWithApollo } from './createWithApollo';
 
+const link = createHttpLink({
+  uri: process.env.NEXT_PUBLIC_URI as string,
+  credentials: 'include',
+});
+
 const createClient = (ctx: NextPageContext) =>
   new ApolloClient({
-    uri: process.env.NEXT_PUBLIC_URI as string,
-    credentials: 'include',
+    // uri: process.env.NEXT_PUBLIC_URI as string,
+    // // credentials: 'same-origin',
+    // credentials: 'include',
     headers: {
-      cookie: (typeof window === 'undefined' ? ctx?.req?.headers.cookie : undefined) || '',
+      cookie: (typeof window == 'undefined' ? ctx?.req?.headers.cookie : undefined) || '',
     },
+    link,
     cache: new InMemoryCache({
       typePolicies: {
         Query: {
