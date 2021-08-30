@@ -31,11 +31,6 @@ export type CreateVideoParameters = {
 };
 
 
-export type EmailPasswordInput = {
-  email: Scalars['String'];
-  password: Scalars['String'];
-};
-
 export type FieldError = {
   __typename?: 'FieldError';
   field: Scalars['String'];
@@ -79,12 +74,12 @@ export type MutationCreatePostArgs = {
 
 export type MutationLoginArgs = {
   password: Scalars['String'];
-  email: Scalars['String'];
+  username: Scalars['String'];
 };
 
 
 export type MutationRegisterArgs = {
-  options: EmailPasswordInput;
+  options: UsernameEmailPasswordInput;
 };
 
 export type PaginatedPosts = {
@@ -141,6 +136,7 @@ export type QueryPostsArgs = {
 export type User = {
   __typename?: 'User';
   id: Scalars['Float'];
+  userId: Scalars['String'];
   username: Scalars['String'];
   email: Scalars['String'];
   posts?: Maybe<Array<Post>>;
@@ -153,6 +149,12 @@ export type UserResponse = {
   errors?: Maybe<Array<FieldError>>;
   user?: Maybe<User>;
   session?: Maybe<User>;
+};
+
+export type UsernameEmailPasswordInput = {
+  username: Scalars['String'];
+  email: Scalars['String'];
+  password: Scalars['String'];
 };
 
 export type Video = {
@@ -191,7 +193,7 @@ export type RegularErrorFragment = (
 
 export type RegularUserFragment = (
   { __typename?: 'User' }
-  & Pick<User, 'id' | 'email'>
+  & Pick<User, 'id' | 'username'>
 );
 
 export type RegularUserResponseFragment = (
@@ -247,7 +249,7 @@ export type DeleteVideoMutation = (
 );
 
 export type LoginMutationVariables = Exact<{
-  email: Scalars['String'];
+  username: Scalars['String'];
   password: Scalars['String'];
 }>;
 
@@ -261,7 +263,7 @@ export type LoginMutation = (
 );
 
 export type RegisterMutationVariables = Exact<{
-  options: EmailPasswordInput;
+  options: UsernameEmailPasswordInput;
 }>;
 
 
@@ -352,7 +354,7 @@ export const RegularErrorFragmentDoc = gql`
 export const RegularUserFragmentDoc = gql`
     fragment RegularUser on User {
   id
-  email
+  username
 }
     `;
 export const RegularUserResponseFragmentDoc = gql`
@@ -477,8 +479,8 @@ export type DeleteVideoMutationHookResult = ReturnType<typeof useDeleteVideoMuta
 export type DeleteVideoMutationResult = Apollo.MutationResult<DeleteVideoMutation>;
 export type DeleteVideoMutationOptions = Apollo.BaseMutationOptions<DeleteVideoMutation, DeleteVideoMutationVariables>;
 export const LoginDocument = gql`
-    mutation Login($email: String!, $password: String!) {
-  login(email: $email, password: $password) {
+    mutation Login($username: String!, $password: String!) {
+  login(username: $username, password: $password) {
     ...RegularUserResponse
   }
 }
@@ -498,7 +500,7 @@ export type LoginMutationFn = Apollo.MutationFunction<LoginMutation, LoginMutati
  * @example
  * const [loginMutation, { data, loading, error }] = useLoginMutation({
  *   variables: {
- *      email: // value for 'email'
+ *      username: // value for 'username'
  *      password: // value for 'password'
  *   },
  * });
@@ -511,7 +513,7 @@ export type LoginMutationHookResult = ReturnType<typeof useLoginMutation>;
 export type LoginMutationResult = Apollo.MutationResult<LoginMutation>;
 export type LoginMutationOptions = Apollo.BaseMutationOptions<LoginMutation, LoginMutationVariables>;
 export const RegisterDocument = gql`
-    mutation Register($options: EmailPasswordInput!) {
+    mutation Register($options: UsernameEmailPasswordInput!) {
   register(options: $options) {
     ...RegularUserResponse
   }

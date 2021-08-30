@@ -27,15 +27,18 @@ const Register = () => {
     if (response.data?.register.errors) {
       setErrors(toErrorMap(response.data.register.errors));
     } else if (response.data?.register.user) {
-      router.push('/');
+      router.push('/confirm-email');
     }
   }
 
   return (
-    <Formik initialValues={{ email: '', password: '' }} onSubmit={handleSubmit}>
+    <Formik initialValues={{ email: '', password: '', username: '' }} onSubmit={handleSubmit}>
       {({ isSubmitting }) => (
         <Form>
           <InputField name="email" placeholder="email" label="Email" />
+          <Box mt={4}>
+            <InputField name="username" placeholder="username" label="Username" />
+          </Box>
           <Box mt={4}>
             <InputField name="password" placeholder="password" label="Password" type="password" />
           </Box>
