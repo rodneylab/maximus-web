@@ -16,6 +16,7 @@
     "@chakra-ui/react": "^1.6.7",
     "@emotion/react": "^11.4.1",
     "@emotion/styled": "^11.3.0",
+    "@supabase/supabase-js": "^1.22.4",
     "axios": "^0.21.1",
     "dayjs": "^1.10.6",
     "formik": "^2.2.9",

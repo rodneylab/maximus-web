@@ -1,0 +1,5 @@
+mutation GithubLogin($accessToken: String!, $refreshToken: String!) {
+  githubLogin(accessToken: $accessToken, refreshToken: $refreshToken) {
+    ...RegularUserResponse
+  }
+}

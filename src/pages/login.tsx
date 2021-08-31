@@ -1,4 +1,5 @@
 import { Box, Button, Flex, Icon, Link } from '@chakra-ui/react';
+import { createClient } from '@supabase/supabase-js';
 import { Form, Formik } from 'formik';
 import NextLink from 'next/link';
 import { useRouter } from 'next/router';
@@ -8,6 +9,21 @@ import { Github } from '../components/SocialIcon';
 import { MeDocument, MeQuery, useLoginMutation } from '../generated/graphql';
 import { toErrorMap } from '../utilities/form';
 import { withApollo } from '../utilities/withApollo';
+
+export async function signInWithGithub() {
+  const supabase = createClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL as string,
+    process.env.NEXT_PUBLIC_SUPABASE_KEY as string,
+  );
+
+  const { user, session, error } = await supabase.auth.signIn({
+    provider: 'github',
+  });
+  console.log(`user: ${user}`);
+  console.log(`session: ${session}`);
+  console.log(`error: ${error}`);
+  return { user, session, error };
+}
 
 const GithubIcon = () => <Github style={{ height: 18, width: 18 }} />;
 
@@ -54,7 +70,7 @@ const Login = () => {
             </NextLink>
           </Flex>
           <Box>
-            <Button>
+            <Button type="submit" onClick={signInWithGithub}>
               <Icon as={GithubIcon} />
               Continue with GitHub
             </Button>

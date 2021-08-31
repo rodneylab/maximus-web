@@ -52,6 +52,7 @@ export type Mutation = {
   createVideo: Video;
   deleteVideo: Scalars['Boolean'];
   createPost: Post;
+  githubLogin: UserResponse;
   login: UserResponse;
   register: UserResponse;
 };
@@ -69,6 +70,12 @@ export type MutationDeleteVideoArgs = {
 
 export type MutationCreatePostArgs = {
   input: PostInput;
+};
+
+
+export type MutationGithubLoginArgs = {
+  refreshToken: Scalars['String'];
+  accessToken: Scalars['String'];
 };
 
 
@@ -139,6 +146,7 @@ export type User = {
   userId: Scalars['String'];
   username: Scalars['String'];
   email: Scalars['String'];
+  githubLogin: Scalars['String'];
   posts?: Maybe<Array<Post>>;
   createdAt: Scalars['String'];
   updatedAt: Scalars['String'];
@@ -246,6 +254,20 @@ export type DeleteVideoMutationVariables = Exact<{
 export type DeleteVideoMutation = (
   { __typename?: 'Mutation' }
   & Pick<Mutation, 'deleteVideo'>
+);
+
+export type GithubLoginMutationVariables = Exact<{
+  accessToken: Scalars['String'];
+  refreshToken: Scalars['String'];
+}>;
+
+
+export type GithubLoginMutation = (
+  { __typename?: 'Mutation' }
+  & { githubLogin: (
+    { __typename?: 'UserResponse' }
+    & RegularUserResponseFragment
+  ) }
 );
 
 export type LoginMutationVariables = Exact<{
@@ -478,6 +500,40 @@ export function useDeleteVideoMutation(baseOptions?: Apollo.MutationHookOptions<
 export type DeleteVideoMutationHookResult = ReturnType<typeof useDeleteVideoMutation>;
 export type DeleteVideoMutationResult = Apollo.MutationResult<DeleteVideoMutation>;
 export type DeleteVideoMutationOptions = Apollo.BaseMutationOptions<DeleteVideoMutation, DeleteVideoMutationVariables>;
+export const GithubLoginDocument = gql`
+    mutation GithubLogin($accessToken: String!, $refreshToken: String!) {
+  githubLogin(accessToken: $accessToken, refreshToken: $refreshToken) {
+    ...RegularUserResponse
+  }
+}
+    ${RegularUserResponseFragmentDoc}`;
+export type GithubLoginMutationFn = Apollo.MutationFunction<GithubLoginMutation, GithubLoginMutationVariables>;
+
+/**
+ * __useGithubLoginMutation__
+ *
+ * To run a mutation, you first call `useGithubLoginMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useGithubLoginMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [githubLoginMutation, { data, loading, error }] = useGithubLoginMutation({
+ *   variables: {
+ *      accessToken: // value for 'accessToken'
+ *      refreshToken: // value for 'refreshToken'
+ *   },
+ * });
+ */
+export function useGithubLoginMutation(baseOptions?: Apollo.MutationHookOptions<GithubLoginMutation, GithubLoginMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<GithubLoginMutation, GithubLoginMutationVariables>(GithubLoginDocument, options);
+      }
+export type GithubLoginMutationHookResult = ReturnType<typeof useGithubLoginMutation>;
+export type GithubLoginMutationResult = Apollo.MutationResult<GithubLoginMutation>;
+export type GithubLoginMutationOptions = Apollo.BaseMutationOptions<GithubLoginMutation, GithubLoginMutationVariables>;
 export const LoginDocument = gql`
     mutation Login($username: String!, $password: String!) {
   login(username: $username, password: $password) {
