@@ -1,12 +1,15 @@
-import { Box, Button, Flex, Link } from '@chakra-ui/react';
+import { Box, Button, Flex, Icon, Link } from '@chakra-ui/react';
 import { Form, Formik } from 'formik';
 import NextLink from 'next/link';
 import { useRouter } from 'next/router';
 import React from 'react';
 import InputField from '../components/InputField';
+import { Github } from '../components/SocialIcon';
 import { MeDocument, MeQuery, useLoginMutation } from '../generated/graphql';
 import { toErrorMap } from '../utilities/form';
 import { withApollo } from '../utilities/withApollo';
+
+const GithubIcon = () => <Github style={{ height: 18, width: 18 }} />;
 
 const Login = () => {
   const router = useRouter();
@@ -38,10 +41,10 @@ const Login = () => {
   }
 
   return (
-    <Formik initialValues={{ email: '', password: '' }} onSubmit={handleSubmit}>
+    <Formik initialValues={{ username: '', password: '' }} onSubmit={handleSubmit}>
       {({ isSubmitting }) => (
         <Form>
-          <InputField name="email" placeholder="email" label="Email" />
+          <InputField name="username" placeholder="username" label="Username" />
           <Box mt={4}>
             <InputField name="password" placeholder="password" label="Password" type="password" />
           </Box>
@@ -50,9 +53,17 @@ const Login = () => {
               <Link>Forgotten your password?</Link>
             </NextLink>
           </Flex>
-          <Button mt={4} type="submit" isLoading={isSubmitting}>
-            login
-          </Button>
+          <Box>
+            <Button>
+              <Icon as={GithubIcon} />
+              Continue with GitHub
+            </Button>
+          </Box>
+          <Box>
+            <Button mt={4} type="submit" isLoading={isSubmitting}>
+              Login with email
+            </Button>
+          </Box>
         </Form>
       )}
     </Formik>
