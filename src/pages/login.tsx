@@ -5,6 +5,7 @@ import NextLink from 'next/link';
 import { useRouter } from 'next/router';
 import React from 'react';
 import InputField from '../components/InputField';
+import NavBar from '../components/NavBar';
 import { Github } from '../components/SocialIcon';
 import { MeDocument, MeQuery, useLoginMutation } from '../generated/graphql';
 import { toErrorMap } from '../utilities/form';
@@ -57,32 +58,36 @@ const Login = () => {
   }
 
   return (
-    <Formik initialValues={{ username: '', password: '' }} onSubmit={handleSubmit}>
-      {({ isSubmitting }) => (
-        <Form>
-          <InputField name="username" placeholder="username" label="Username" />
-          <Box mt={4}>
-            <InputField name="password" placeholder="password" label="Password" type="password" />
-          </Box>
-          <Flex mt="2">
-            <NextLink href="/forgot-password">
-              <Link>Forgotten your password?</Link>
-            </NextLink>
-          </Flex>
-          <Box>
-            <Button type="submit" onClick={signInWithGithub}>
-              <Icon as={GithubIcon} />
-              Continue with GitHub
-            </Button>
-          </Box>
-          <Box>
-            <Button mt={4} type="submit" isLoading={isSubmitting}>
-              Login with email
-            </Button>
-          </Box>
-        </Form>
-      )}
-    </Formik>
+    <>
+      <NavBar />
+      <Box>
+        <Button type="submit" onClick={signInWithGithub}>
+          <Icon as={GithubIcon} />
+          Continue with GitHub
+        </Button>
+      </Box>
+      <Formik initialValues={{ username: '', password: '' }} onSubmit={handleSubmit}>
+        {({ isSubmitting }) => (
+          <Form>
+            <p>Have a password? Continue with your email address.</p>
+            <InputField name="username" placeholder="username" label="Username" />
+            <Box mt={4}>
+              <InputField name="password" placeholder="password" label="Password" type="password" />
+            </Box>
+            <Flex mt="2">
+              <NextLink href="/forgot-password">
+                <Link>Forgotten your password?</Link>
+              </NextLink>
+            </Flex>
+            <Box>
+              <Button mt={4} type="submit">
+                Login with email
+              </Button>
+            </Box>
+          </Form>
+        )}
+      </Formik>
+    </>
   );
 };
 

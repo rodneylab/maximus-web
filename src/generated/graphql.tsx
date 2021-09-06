@@ -100,7 +100,7 @@ export type Post = {
   id: Scalars['ID'];
   title: Scalars['String'];
   slug: Scalars['String'];
-  creatorId: Scalars['Float'];
+  creatorId: Scalars['String'];
   creator: User;
   createdAt: Scalars['DateTime'];
   updatedAt: Scalars['DateTime'];
