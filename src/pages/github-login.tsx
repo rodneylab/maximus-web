@@ -7,27 +7,28 @@ const GithubLogin = () => {
   const router = useRouter();
   const [login] = useGithubLoginMutation();
 
-  async function githubLogin(values) {
-    const response = await login({
-      update: (cache, { data }) => {
-        cache.writeQuery<MeQuery>({
-          query: MeDocument,
-          data: {
-            __typename: 'Query',
-            me: data?.githubLogin.user,
-          },
-        });
-        cache.evict({ fieldName: 'posts:{}' });
-      },
-    });
-    if (response.data?.githubLogin.errors) {
-      console.log('Errors: ', response.data.githubLogin.errors);
-    } else {
-      router.push('/');
-    }
-  }
-
   useEffect(() => {
+    async function githubLogin(values) {
+      const response = await login({
+        variables: values,
+        update: (cache, { data }) => {
+          cache.writeQuery<MeQuery>({
+            query: MeDocument,
+            data: {
+              __typename: 'Query',
+              me: data?.githubLogin.user,
+            },
+          });
+          cache.evict({ fieldName: 'posts:{}' });
+        },
+      });
+      if (response.data?.githubLogin.errors) {
+        console.log('Errors: ', response.data.githubLogin.errors);
+      } else {
+        router.push('/');
+      }
+    }
+
     if (typeof router.query.access_token === 'string') {
       const {
         access_token: accessToken,
@@ -37,7 +38,7 @@ const GithubLogin = () => {
       const values = { accessToken, providerToken, refreshToken };
       githubLogin(values);
     }
-  }, [router]);
+  }, [login, router]);
 
   return <>Github Login</>;
 };

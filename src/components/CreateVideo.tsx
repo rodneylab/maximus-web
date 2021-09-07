@@ -74,6 +74,7 @@ const CreateVideo: React.FC<CreateVideoProps> = ({ slug }) => {
       } else {
         message = `Error setting up response: ${error.message}`;
       }
+      console.log('error: ', message);
     }
   };
   return (

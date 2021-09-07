@@ -4,14 +4,14 @@ import { useRouter } from 'next/router';
 import React from 'react';
 import InputField from '../components/InputField';
 import { MeDocument, MeQuery, useRegisterMutation } from '../generated/graphql';
-import toErrorMap from '../utilities/form';
+import { toErrorMap } from '../utilities/form';
 import { withApollo } from '../utilities/withApollo';
 
 const Register = () => {
   const router = useRouter();
   const [register] = useRegisterMutation();
 
-  async function handleSubmit(values, { setErrors }) {
+  const handleSubmit = async (values, { setErrors }) => {
     const response = await register({
       variables: { options: values },
       update: (cache, { data }) => {
@@ -29,18 +29,24 @@ const Register = () => {
     } else if (response.data?.register.user) {
       router.push('/confirm-email');
     }
-  }
+  };
 
   return (
     <Formik initialValues={{ email: '', password: '', username: '' }} onSubmit={handleSubmit}>
       {({ isSubmitting }) => (
         <Form>
-          <InputField name="email" placeholder="email" label="Email" />
+          <InputField name="email" placeholder="email" label="Email" isRequired />
           <Box mt={4}>
-            <InputField name="username" placeholder="username" label="Username" />
+            <InputField name="username" placeholder="username" label="Username" isRequired />
           </Box>
           <Box mt={4}>
-            <InputField name="password" placeholder="password" label="Password" type="password" />
+            <InputField
+              name="password"
+              placeholder="password"
+              label="Password"
+              type="password"
+              isRequired
+            />
           </Box>
           <Button mt={4} type="submit" isLoading={isSubmitting}>
             register

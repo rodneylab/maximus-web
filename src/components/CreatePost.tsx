@@ -6,7 +6,7 @@ import InputField from './InputField';
 
 const CreatePost: React.FC<{}> = () => {
   const [createPost] = useCreatePostMutation();
-  const [errors, setErrors] = useState('');
+  const [, setErrors] = useState('');
   const handleSubmit = async (values) => {
     const { errors: createPostErrors } = await createPost({
       variables: { input: values },
@@ -26,8 +26,8 @@ const CreatePost: React.FC<{}> = () => {
       <Formik initialValues={{ title: '', slug: '' }} onSubmit={handleSubmit}>
         {({ isSubmitting }) => (
           <Form>
-            <InputField name="title" placeholder="Title" label="Title" />
-            <InputField name="slug" placeholder="post-slug" label="Slug" />
+            <InputField name="title" placeholder="Title" label="Title" isRequired />
+            <InputField name="slug" placeholder="post-slug" label="Slug" isRequired />
             <Button type="submit" isLoading={isSubmitting}>
               Add Post
             </Button>

@@ -6,6 +6,10 @@ type InputFieldProps = InputHTMLAttributes<HTMLInputElement> & {
   label: string;
   name: string;
   isRequired?: boolean;
+} & typeof defaultProps;
+
+const defaultProps = {
+  isRequired: false,
 };
 
 const InputField: React.FC<InputFieldProps> = ({
@@ -45,4 +49,7 @@ const InputField: React.FC<InputFieldProps> = ({
     </>
   );
 };
+
+InputField.defaultProps = defaultProps;
+
 export { InputField as default };

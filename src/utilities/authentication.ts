@@ -9,5 +9,7 @@ export function useIsAuth() {
     if (!loading && !data?.me) {
       router.replace(`/login?next=${router.pathname}`);
     }
-  }, [data, router]);
+  }, [data, loading, router]);
 }
+
+export { useIsAuth as default };

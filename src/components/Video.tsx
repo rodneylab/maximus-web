@@ -1,9 +1,13 @@
 import { DeleteIcon } from '@chakra-ui/icons';
 import { IconButton } from '@chakra-ui/react';
 import dayjs from 'dayjs';
+import timezone from 'dayjs/plugin/timezone';
+import utc from 'dayjs/plugin/utc';
 import React from 'react';
 import { useDeleteVideoMutation } from '../generated/graphql';
 
+dayjs.extend(timezone);
+dayjs.extend(utc);
 const Video = ({
   captionsStorageId,
   captionsStorageKey,
@@ -17,18 +21,18 @@ const Video = ({
 }) => {
   const [deleteVideoMutation] = useDeleteVideoMutation();
 
-  const handleDelete = async (id) => {
+  const handleDelete = async (videoId) => {
     await deleteVideoMutation({
       variables: {
-        id: parseInt(id, 10),
+        id: parseInt(videoId, 10),
       },
       update: (cache) => {
-        cache.evict({ id: `Video:${id}` });
+        cache.evict({ videoId: `Video:${videoId}` });
       },
     });
   };
 
-  const createdDate = dayjs(createdAt);
+  const createdDate = dayjs(createdAt).tz(dayjs.tz.guess(), true);
   const createdDateString = createdDate.fromNow();
 
   return (
@@ -48,6 +52,7 @@ const Video = ({
       <p>Video storage id: {videoStorageId}</p>
       <p>Video storage key: {videoStorageKey}</p>
       <p>Created: {createdDateString}</p>
+      <>{dayjs(new Date()).fromNow()}</>
     </>
   );
 };
