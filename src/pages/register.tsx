@@ -2,6 +2,7 @@ import { Box, Button } from '@chakra-ui/react';
 import { Form, Formik } from 'formik';
 import { useRouter } from 'next/router';
 import React from 'react';
+import GithubLogin from '../components/GithubLogin';
 import InputField from '../components/InputField';
 import { MeDocument, MeQuery, useRegisterMutation } from '../generated/graphql';
 import { toErrorMap } from '../utilities/form';
@@ -32,28 +33,32 @@ const Register = () => {
   };
 
   return (
-    <Formik initialValues={{ email: '', password: '', username: '' }} onSubmit={handleSubmit}>
-      {({ isSubmitting }) => (
-        <Form>
-          <InputField name="email" placeholder="email" label="Email" isRequired />
-          <Box mt={4}>
-            <InputField name="username" placeholder="username" label="Username" isRequired />
-          </Box>
-          <Box mt={4}>
-            <InputField
-              name="password"
-              placeholder="password"
-              label="Password"
-              type="password"
-              isRequired
-            />
-          </Box>
-          <Button mt={4} type="submit" isLoading={isSubmitting}>
-            register
-          </Button>
-        </Form>
-      )}
-    </Formik>
+    <>
+      <Box>Register with maximus to continue.</Box>
+      <GithubLogin />
+      <Formik initialValues={{ email: '', password: '', username: '' }} onSubmit={handleSubmit}>
+        {({ isSubmitting }) => (
+          <Form>
+            <InputField name="email" placeholder="email" label="Email" isRequired />
+            <Box mt={4}>
+              <InputField name="username" placeholder="username" label="Username" isRequired />
+            </Box>
+            <Box mt={4}>
+              <InputField
+                name="password"
+                placeholder="password"
+                label="Password"
+                type="password"
+                isRequired
+              />
+            </Box>
+            <Button mt={4} type="submit" isLoading={isSubmitting}>
+              Register with email
+            </Button>
+          </Form>
+        )}
+      </Formik>
+    </>
   );
 };
 

@@ -1,32 +1,13 @@
-import { Box, Button, Flex, Icon, Link } from '@chakra-ui/react';
-import { createClient } from '@supabase/supabase-js';
+import { Box, Button, Flex, Link } from '@chakra-ui/react';
 import { Form, Formik } from 'formik';
 import NextLink from 'next/link';
 import { useRouter } from 'next/router';
 import React from 'react';
+import GithubLogin from '../components/GithubLogin';
 import InputField from '../components/InputField';
-import { NavBar } from '../components/NavBar';
-import { Github } from '../components/SocialIcon';
 import { MeDocument, MeQuery, useLoginMutation } from '../generated/graphql';
 import { toErrorMap } from '../utilities/form';
 import { withApollo } from '../utilities/withApollo';
-
-export async function signInWithGithub() {
-  const supabase = createClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL as string,
-    process.env.NEXT_PUBLIC_SUPABASE_KEY as string,
-  );
-
-  const { user, session, error } = await supabase.auth.signIn({
-    provider: 'github',
-  });
-  console.log(`user: ${user}`);
-  console.log(`session: ${session}`);
-  console.log(`error: ${error}`);
-  return { user, session, error };
-}
-
-const GithubIcon = () => <Github style={{ height: 18, width: 18 }} />;
 
 const Login = () => {
   const router = useRouter();
@@ -52,20 +33,15 @@ const Login = () => {
       if (typeof router.query.next === 'string') {
         router.push(router.query.next);
       } else {
-        router.push('/dashboard');
+        router.push('/dashboard/');
       }
     }
   };
 
   return (
     <>
-      <NavBar />
-      <Box>
-        <Button type="submit" onClick={signInWithGithub}>
-          <Icon as={GithubIcon} />
-          Continue with GitHub
-        </Button>
-      </Box>
+      <Box>Log in to maximus to continue.</Box>
+      <GithubLogin />
       <Formik initialValues={{ username: '', password: '' }} onSubmit={handleSubmit}>
         {({ isSubmitting }) => (
           <Form>

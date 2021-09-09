@@ -54,7 +54,7 @@ const CreateVideo: React.FC<CreateVideoProps> = ({ slug }) => {
           },
         },
         update: (cache) => {
-          cache.evict({ fieldName: 'posts:{}' });
+          cache.evict({ fieldName: 'videos:{}' });
         },
       });
       if (createVideoErrors) {
@@ -82,8 +82,13 @@ const CreateVideo: React.FC<CreateVideoProps> = ({ slug }) => {
       <Formik initialValues={{ description: '', key: '' }} onSubmit={handleSubmit}>
         {({ isSubmitting, setFieldValue }) => (
           <Form>
-            <InputField name="key" placeholder="video-key" label="Key" />
-            <InputField name="description" placeholder="Description" label="Description" />
+            <InputField name="key" placeholder="video-key" label="Key" isRequired />
+            <InputField
+              name="description"
+              placeholder="Description"
+              label="Description"
+              isRequired
+            />
             <FileInputField
               id="captions"
               name="captions"
