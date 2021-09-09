@@ -29,8 +29,6 @@ const GithubLogin = () => {
       }
     }
     const locationHash = new URLSearchParams(window.location.hash.slice(1));
-    console.log('povider: ', locationHash.get('provider_token'));
-    console.log('refresh: ', locationHash.get('refresh_token'));
     const values = {
       accessToken: locationHash.get('provider_token'),
       refreshToken: locationHash.get('refresh_token'),
